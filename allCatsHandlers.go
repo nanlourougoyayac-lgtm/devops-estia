@@ -56,32 +56,3 @@ func createCat(req *http.Request) (int, any) {
 	Logger.Infof("Cat '%s' saved into the DB", newCatID)
 	return http.StatusCreated, newCatID
 }
-func getCat(req *http.Request) (int, any) {
-
-	catID := req.PathValue("id")
-	Logger.Infof("Getting cat with ID: %s", catID)
-
-	cat, exists := catsDatabase[catID]
-	if !exists {
-		Logger.Warnf("Cat '%s' not found", catID)
-		return http.StatusNotFound, "Cat not found"
-	}
-
-	return http.StatusOK, cat
-}
-func deleteCat(req *http.Request) (int, any) {
-
-	catID := req.PathValue("id")
-	Logger.Infof("Deleting cat with ID: %s", catID)
-
-	_, exists := catsDatabase[catID]
-	if !exists {
-		Logger.Warnf("Cat '%s' not found", catID)
-		return http.StatusNotFound, "Cat not found"
-	}
-
-	delete(catsDatabase, catID)
-
-	Logger.Infof("Cat '%s' deleted", catID)
-	return http.StatusOK, "Cat deleted"
-}
